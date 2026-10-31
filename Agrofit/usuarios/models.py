@@ -4,23 +4,21 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 #-------------------------------------------------------------------------------------
-#Opciones para las opciones desplagables 
+#Opciones para las opciones de los menus desplagables 
 
 ROLES = [
-    ('','Elige una opcion'), # Llave: se guarada en la base de datos y contenido: se muestar al usuario
+    # Llave: se guarada en la base de datos y contenido: se muestar al usuario
     ('rol_aprendiz','Aprendiz'),
     ('rol_funcionario','Funcionario'),
 ]
 
 DEPENDENCIAS = [
-    ('','Eligue una opcion'),
     ('depe_1','Instructor Gym'),
     ('depe_2','Instructor sena'),
     ('depe_3','Coordinador'),
 ]
 
 CENTROS_FORMACION = [
-    ('','Eligue una opcion'),
     ('centro_1','Centro Agropecuario'),
     ('centro_2','Ctpi'),
 ]
@@ -30,7 +28,9 @@ class Perfil_Usuario(models.Model): #Esta clase representa la tabla en la base d
     
     #Todas estas variables representan un campo en la BD de la tabla de Perfil_Usuario (osea de la class)
     
+    #Aqui me va guardar este campo como id_usuario 
     usuario = models.OneToOneField(User, on_delete=models.CASCADE) # models.OneToOneField: Significa que un usuario solo puede tener un Perfil, y un Perfil pertenece a un solo usuario
+    
     
     rol = models.CharField(
         max_length=20, 
@@ -43,7 +43,7 @@ class Perfil_Usuario(models.Model): #Esta clase representa la tabla en la base d
       # null=True (permite guardar un valor nulo en la base de datos)
     
     numero_ficha = models.CharField(
-        max_length=50,
+        max_length=12,
         blank=True,
         null=True,
     )
