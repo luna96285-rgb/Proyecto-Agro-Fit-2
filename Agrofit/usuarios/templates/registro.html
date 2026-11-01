@@ -1,0 +1,40 @@
+{% extends "base.html" %} <!--Traemos la base del HTML-->
+
+{% block title %} Registro - {% endblock  %} <!--Texto que la url de la pagina-->
+
+
+<div class="content_registro">
+    {% block content %}
+
+        <div class="content-formulario">
+
+            <h1>Bienvenido a Registro</h1>
+
+            <!--Traemos el formulario-->
+            <form method="POST">
+
+                {% csrf_token %} <!--token de seguridad para evitar registros con fraudes-->
+
+                <!--Traemos los campos del formulario-->
+                {{formulario.as_p}}
+
+                <!--Boton para enviar el registro-->
+                <button type="submit" class="btn-registro">Registrarme</button>
+            
+            </form>
+        </div>
+        
+
+        <!-- BLOQUE DE MENSAJES DE DJANGO -->
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    {% endblock  %}
+</div>

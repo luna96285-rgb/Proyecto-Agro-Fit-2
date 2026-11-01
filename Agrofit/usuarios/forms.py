@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm #Trae una herramieta de Django Para crear nuevos usuarios
 #  - crea automaticamente las casillas o campos de nombre de usuario, contra y confirmacion de contra y trae el cifrado y las verificacion de contra(osea mas de 7 carecteres y lo demas)
 
+
 #---------------------------------------------------------------------------------------------------------
 #TRAEMOS LAS OPCIONES PARA LOS MENUS QUE DEFINIMOS EN EL MODELS.PY
 from .models import ROLES, DEPENDENCIAS, CENTROS_FORMACION
 
 #DEFENIMOS AQUI SOLO LAS OPCIONES DE LOS MENUS DESPLEGABLES 
 
-ROLES_FORM = [('',''),] + list(ROLES) #Aqui aumentamos las impotacion de las opciones de cada menu
+ROLES_FORM = [] + list(ROLES) #Aqui aumentamos las impotacion de las opciones de cada menu
 
 
 DEPENDENCIAS_FORM = [
@@ -38,14 +39,6 @@ class RegistroFormulario(UserCreationForm):
       #los campos que tiene ChoiceField: son  casillas de tipo menu de opciones
       #los campos que tiene CharField: son casillas de tipo texto 
     
-    rol = forms.ChoiceField(
-        choices= ROLES_FORM,
-        label= "Seleciona tu rol",
-        widget= forms.RadioSelect,
-        required=True,
-        initial='rol_aprendiz'
-    )
-    
     first_name = forms.CharField(max_length=50, required=True, label="Nombre")
     
     last_name = forms.CharField(max_length=50, required=True, label="Apellido")
@@ -53,6 +46,14 @@ class RegistroFormulario(UserCreationForm):
     email = forms.EmailField(required=True, label="Correo")
     
     numero_ficha = forms.CharField(max_length=12, required=False, label="Numero de ficha (Solo Aprendiz)" )
+    
+    rol = forms.ChoiceField(
+        choices= ROLES_FORM,
+        label= "Seleciona tu rol",
+        widget= forms.RadioSelect,
+        required=True,
+        initial='rol_aprendiz'
+    )
     
     dependencia = forms.ChoiceField(
         choices= DEPENDENCIAS_FORM,
@@ -65,6 +66,18 @@ class RegistroFormulario(UserCreationForm):
         required=False,
         label= "Centro Formacion (solo Funcionario)"
     )
+    
+    #Esta lista es para como quiremos el orden para mostar los camos del formulario
+    field_order = [
+        'rol',               # <-- ¡Primero el rol!
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'numero_ficha',
+        'dependencia',
+        'centro_formacion',
+    ]
     
     #-------------------------------------------------------------------------------------------
     
@@ -116,3 +129,4 @@ class RegistroFormulario(UserCreationForm):
         
         
         return cleaned_data #Retornamos todos los datos ya verificados y listos
+    
